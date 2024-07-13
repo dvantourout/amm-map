@@ -5,6 +5,7 @@ const Track = ({ track }: { track: any }) => {
     <Polyline
       positions={track.geometry.coordinates}
       color={track.properties.color}
+      weight={5}
       eventHandlers={{
         mouseover: (e) => {
           e.target.setStyle({
@@ -18,7 +19,15 @@ const Track = ({ track }: { track: any }) => {
         },
       }}
     >
-      <Popup>{track.properties.name}</Popup>
+      <Popup>
+        <b>{track.properties.name}</b>
+        <br />
+        Distance: {Math.round(track.properties.distance) / 1000}km
+        <br />
+        Elevation gain: {Math.round(track.properties.elevation_gain)}m
+        <br />
+        Elevation loss: {Math.round(track.properties.elevation_loss)}m
+      </Popup>
     </Polyline>
   );
 };

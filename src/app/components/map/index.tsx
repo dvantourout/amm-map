@@ -1,6 +1,6 @@
 "use client";
 
-import { MapContainer, Polyline, TileLayer } from "react-leaflet";
+import { MapContainer, TileLayer } from "react-leaflet";
 
 import "leaflet/dist/leaflet.css";
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css";
@@ -21,7 +21,9 @@ const Map = () => {
       zoomDelta={0.25}
     >
       <TileLayer
-        url="https://data.geopf.fr/private/wmts?apikey=ign_scan_ws&layer=GEOGRAPHICALGRIDSYSTEMS.MAPS.SCAN25TOUR&style=normal&tilematrixset=PM&Service=WMTS&Request=GetTile&Version=1.0.0&Format=image%2Fjpeg&TileMatrix={z}&TileCol={x}&TileRow={y}"
+        // GEOGRAPHICALGRIDSYSTEMS.MAPS
+        // GEOGRAPHICALGRIDSYSTEMS.MAPS.SCAN25TOUR
+        url="https://data.geopf.fr/private/wmts?apikey=ign_scan_ws&layer=GEOGRAPHICALGRIDSYSTEMS.MAPS&style=normal&tilematrixset=PM&Service=WMTS&Request=GetTile&Version=1.0.0&Format=image%2Fjpeg&TileMatrix={z}&TileCol={x}&TileRow={y}"
         minZoom={6}
         maxZoom={16}
       />
