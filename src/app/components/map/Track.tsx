@@ -1,6 +1,8 @@
-import { Polyline, Popup } from "react-leaflet";
+import { Polyline, Popup, useMapEvents } from "react-leaflet";
 
 const Track = ({ track }: { track: any }) => {
+  const map = useMapEvents({});
+
   return (
     <Polyline
       positions={track.geometry.coordinates}
@@ -16,6 +18,11 @@ const Track = ({ track }: { track: any }) => {
           e.target.setStyle({
             weight: 5,
           });
+        },
+        mousedown: (e) => {
+          // map.fidBounds(e.target.getBounds());
+          map.flyToBounds(e.target.getBounds());
+          // console.log({ x: e.target.getBounds() });
         },
       }}
     >
