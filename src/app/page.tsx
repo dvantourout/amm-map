@@ -1,7 +1,10 @@
 import dynamic from "next/dynamic";
 import { useMemo } from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
 
-export default async function Page() {
+export default function Page() {
+  const tracks: any = useMemo(() => require("@/app/data/amm-tracks.json"), []);
+
   const Map = useMemo(
     () =>
       dynamic(() => import("@/app/components/map/"), {
@@ -11,11 +14,7 @@ export default async function Page() {
     []
   );
 
-  return (
-    <>
-      <div id="map">
-        <Map />
-      </div>
-    </>
-  );
+  // Map zIndex 400
+  // Controls zIndex 1000
+  return <Map tracks={tracks} />;
 }

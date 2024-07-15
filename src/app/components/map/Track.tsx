@@ -10,6 +10,7 @@ const Track = ({ track }: { track: any }) => {
       weight={5}
       eventHandlers={{
         mouseover: (e) => {
+          e.target.bringToFront();
           e.target.setStyle({
             weight: 8,
           });
@@ -20,9 +21,7 @@ const Track = ({ track }: { track: any }) => {
           });
         },
         mousedown: (e) => {
-          // map.fidBounds(e.target.getBounds());
-          map.flyToBounds(e.target.getBounds());
-          // console.log({ x: e.target.getBounds() });
+          map.flyToBounds(e.target.getBounds().pad(0.1));
         },
       }}
     >
