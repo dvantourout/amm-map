@@ -22,7 +22,7 @@ const Map = ({ tracks }: { tracks: any }) => {
         zoomSnap={0}
         zoomDelta={0.25}
         ref={setMap}
-        tapTolerance={20}
+        tapTolerance={200}
         className="h-full w-full"
       >
         <TileLayer
