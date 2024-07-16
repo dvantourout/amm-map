@@ -1,6 +1,5 @@
 import dynamic from "next/dynamic";
 import { useMemo } from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
 
 export default function Page() {
   const tracks: any = useMemo(() => require("@/app/data/amm-tracks.json"), []);

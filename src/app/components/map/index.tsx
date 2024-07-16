@@ -19,10 +19,11 @@ const Map = ({ tracks }: { tracks: any }) => {
         center={[44.086294, 6.479357]}
         zoom={13}
         scrollWheelZoom={true}
-        style={{ height: "100%", width: "100%" }}
         zoomSnap={0}
         zoomDelta={0.25}
         ref={setMap}
+        tapTolerance={20}
+        className="h-full w-full"
       >
         <TileLayer
           // GEOGRAPHICALGRIDSYSTEMS.MAPS
@@ -44,7 +45,7 @@ const Map = ({ tracks }: { tracks: any }) => {
   return (
     <div>
       {map ? <SidePanel tracks={tracks} map={map} /> : null}
-      <div id="map">{displayMap}</div>
+      <div className="h-screen w-screen">{displayMap}</div>
     </div>
   );
 };
