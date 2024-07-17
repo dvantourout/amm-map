@@ -1,16 +1,20 @@
 "use client";
 
-import { MapContainer, TileLayer } from "react-leaflet";
+import { useMemo, useState } from "react";
 
+import { Map as LeafletMap } from "leaflet";
+import { MapContainer, TileLayer } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css";
 import "leaflet-defaulticon-compatibility";
-import Track from "./Track";
-import { useMemo, useState } from "react";
-import SidePanel from "../sidepanel";
-import { Map as LeafletMap } from "leaflet";
+import { RecoilRoot } from "recoil";
 
-const Map = ({ tracks }: { tracks: any }) => {
+import { Track as TrackType, TracksByRegion } from "@/app/types";
+
+import Track from "./Track";
+import SidePanel from "../sidepanel";
+
+const Map = ({ tracks }: { tracks: TracksByRegion }) => {
   const [map, setMap] = useState<LeafletMap | null>(null);
 
   const displayMap = useMemo(
@@ -33,20 +37,22 @@ const Map = ({ tracks }: { tracks: any }) => {
           maxZoom={16}
         />
         {Object.keys(tracks).map((region) =>
-          tracks[region].map((track: any) => (
+          tracks[region].map((track: TrackType) => (
             <Track key={`gpx-${track.properties.name}`} track={track} />
-          ))
+          )),
         )}
       </MapContainer>
     ),
-    [tracks]
+    [tracks],
   );
 
   return (
-    <div>
-      {map ? <SidePanel tracks={tracks} map={map} /> : null}
-      <div className="h-screen w-screen">{displayMap}</div>
-    </div>
+    <RecoilRoot>
+      <div>
+        {map ? <SidePanel tracks={tracks} map={map} /> : null}
+        <div className="h-screen w-screen">{displayMap}</div>
+      </div>
+    </RecoilRoot>
   );
 };
 

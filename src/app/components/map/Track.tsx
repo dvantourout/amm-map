@@ -1,7 +1,12 @@
-import { Polyline, Popup, useMapEvents } from "react-leaflet";
+import { Polyline, useMap } from "react-leaflet";
+import { useSetRecoilState } from "recoil";
 
-const Track = ({ track }: { track: any }) => {
-  const map = useMapEvents({});
+import { selectedGpxAtom, sidePanelAtom } from "@/app/atoms";
+import { Track as TrackType } from "@/app/types";
+
+const Track: React.FC<{ track: TrackType }> = ({ track }) => {
+  const setSelectedGpx = useSetRecoilState(selectedGpxAtom);
+  const setSidePanel = useSetRecoilState(sidePanelAtom);
 
   return (
     <Polyline
@@ -12,29 +17,20 @@ const Track = ({ track }: { track: any }) => {
         mouseover: (e) => {
           e.target.bringToFront();
           e.target.setStyle({
-            weight: 8,
+            weight: 10,
           });
         },
         mouseout: (e) => {
           e.target.setStyle({
-            weight: 5,
+            weight: 8,
           });
         },
-        mousedown: (e) => {
-          map.flyToBounds(e.target.getBounds().pad(0.1));
+        mousedown: () => {
+          setSelectedGpx(() => track);
+          setSidePanel(() => true);
         },
       }}
-    >
-      <Popup>
-        <b>{track.properties.name}</b>
-        <br />
-        Distance: {Math.round(track.properties.distance) / 1000}km
-        <br />
-        Elevation gain: {Math.round(track.properties.elevation_gain)}m
-        <br />
-        Elevation loss: {Math.round(track.properties.elevation_loss)}m
-      </Popup>
-    </Polyline>
+    ></Polyline>
   );
 };
 

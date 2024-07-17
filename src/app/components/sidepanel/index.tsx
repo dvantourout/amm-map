@@ -1,59 +1,43 @@
 "use client";
 
-import { useState } from "react";
-import { geoJSON, LatLng } from "leaflet";
-import Accordion from "@/app/components/accordion/Accordion";
+import { Map } from "leaflet";
+import { useRecoilState } from "recoil";
 
-const SidePanel = ({ tracks, map }: { tracks: any; map: any }) => {
-  const [sidePanel, setSidePanel] = useState(false);
+import { selectedGpxAtom, sidePanelAtom } from "@/app/atoms";
+import { TracksByRegion } from "@/app/types";
+
+import GPXList from "./GPXList";
+import TrackDetail from "./TrackDetail";
+
+
+const SidePanel: React.FC<{ tracks: TracksByRegion; map: Map }> = ({
+  tracks,
+  map,
+}) => {
+  const [sidePanel, setSidePanel] = useRecoilState(sidePanelAtom);
+  const [selectedGpx, setSelectedGpx] = useRecoilState(selectedGpxAtom);
 
   return (
     <div
-      className={`absolute w-[408px] h-screen bg-white z-[401] transition-transform ${
+      className={`absolute sm:w-[408px] h-screen bg-white z-[1001] transition-transform ${
         sidePanel ? "-translate-x-0" : "-translate-x-full"
-      }`}
+      } w-full`}
     >
       <div className="overflow-scroll scrollbar-width-thin h-screen">
-        {Object.keys(tracks).map((region) => {
-          return (
-            <Accordion
-              key={`divider-${region}`}
-              header={
-                <div className="flex items-center pl-3 h-12  cursor-pointer hover:bg-slate-50 w-full">
-                  {region}
-                </div>
-              }
-            >
-              {tracks[region].map((track: any) => {
-                return (
-                  <div
-                    key={`sidepanel-${track.properties.filename}`}
-                    className="flex items-center pl-3 h-12 border-b border-solid border-b-slate-300 cursor-pointer hover:bg-slate-50"
-                    onClick={(e) => {
-                      map.flyToBounds(
-                        geoJSON(track.geometry, {
-                          coordsToLatLng: (coords) => {
-                            return new LatLng(coords[0], coords[1], coords[2]);
-                          },
-                        })
-                          .getBounds()
-                          .pad(0.1)
-                      );
-                      setSidePanel(() => false);
-                    }}
-                  >
-                    {track.properties.region} - {track.properties.name}
-                  </div>
-                );
-              })}
-            </Accordion>
-          );
-        })}
+        {selectedGpx ? (
+          <div className="p-4">
+            <button onClick={() => setSelectedGpx(() => null)}>Back</button>
+            <TrackDetail selectedGpx={selectedGpx} map={map} />
+          </div>
+        ) : (<>
+        <button className="sm:hidden" onClick={() => setSidePanel(() => false)}>Back</button>
+          <GPXList tracks={tracks} /></>
+        )}
       </div>
       <div
-        className={`absolute left-[408px] bg-white z-[401] top-1/2 w-6 h-12 leading-[48px] text-center ${
-          !sidePanel && "transform -scale-x-100"
-        }`}
+        className={`sm:block absolute left-full sm:left-[408px] top-1/2 w-6 h-12 bg-white z-[401] leading-[48px] text-center ${
+          !sidePanel ? "transform -scale-x-100" : "hidden"
+        }` }
         onClick={() => setSidePanel((v) => !v)}
       >
         &#10092;

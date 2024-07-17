@@ -1,8 +1,14 @@
-import dynamic from "next/dynamic";
 import { useMemo } from "react";
 
+import dynamic from "next/dynamic";
+
+import { TracksByRegion } from "./types";
+
 export default function Page() {
-  const tracks: any = useMemo(() => require("@/app/data/amm-tracks.json"), []);
+  const tracks: TracksByRegion = useMemo(
+    () => require("@/app/data/amm-tracks.json"),
+    []
+  );
 
   const Map = useMemo(
     () =>
