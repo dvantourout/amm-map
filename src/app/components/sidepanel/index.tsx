@@ -93,7 +93,7 @@ const SidePanel: React.FC<{ tracks: TracksByRegion; map: Map }> = ({
                         strokeWidth={1.5}
                         stroke="currentColor"
                         className={`size-6 transition-all ease-in-out duration-200 ${
-                            !sidePanel && 'transform -scale-x-100'
+                            sidePanel && 'transform -scale-x-100'
                         }`}
                     >
                         <path
